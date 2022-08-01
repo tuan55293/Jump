@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Ground
+  - Platform
+  - DeadZone
   layers:
   - Default
   - TransparentFX
@@ -38,6 +41,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: BG
+    uniqueID: 3460410773
+    locked: 0
+  - name: FG
+    uniqueID: 3902461451
+    locked: 0
+  - name: Player
+    uniqueID: 1143610317
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
