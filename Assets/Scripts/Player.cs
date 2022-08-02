@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             SetPower(false);
-            Debug.Log("hahaaaaaaaaa");
+            
         }
     }
     void SetPower()
