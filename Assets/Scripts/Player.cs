@@ -34,12 +34,13 @@ public class Player : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             SetPower(false);
-            
+
         }
+
     }
     void SetPower()
     {
-        if(m_powerSetted && !m_Jumped)
+        if (m_powerSetted && !m_Jumped)
         {
             jumpForce.x += jumpForceUp.x * Time.deltaTime;
             jumpForce.y += jumpForceUp.y * Time.deltaTime;
@@ -53,7 +54,7 @@ public class Player : MonoBehaviour
     {
         m_powerSetted = isHoldingMouse;
 
-        if(!m_powerSetted && !m_Jumped)
+        if (!m_powerSetted && !m_Jumped)
         {
             Jump();
         }
@@ -61,7 +62,7 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if(!m_rb || jumpForce.x <=0 || jumpForce.y <= 0)
+        if (!m_rb || jumpForce.x <= 0 || jumpForce.y <= 0)
         {
             return;
         }
