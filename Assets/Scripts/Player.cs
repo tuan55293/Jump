@@ -74,4 +74,34 @@ public class Player : MonoBehaviour
             m_anim.SetBool("Jumped", true);
         }
     }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag(TagsConsts.GROUND))
+        {
+            Platform p = collision.transform.root.GetComponent<Platform>();
+
+            if (m_Jumped)
+            {
+                m_Jumped = false;
+
+                if (m_anim)
+                {
+                    m_anim.SetBool("Jumped", false);
+                }
+                if (m_rb)
+                {
+                    m_rb.velocity = Vector3.zero;
+                }
+                jumpForce = Vector3.zero;
+            }
+
+            if(p && p.id != lastPlatformId)
+            {
+                GameManager.Ins.CreatePlatformAndLerp(transform.position.x);
+                lastPlatformId = p.id;
+                GameManager.Ins.AddScore();
+            }
+        }
+    }
 }
