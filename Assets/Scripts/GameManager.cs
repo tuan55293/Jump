@@ -22,10 +22,14 @@ public class GameManager : Singleton<GameManager>
     public override void Start()
     {
         base.Start();
-
-        StartCoroutine(PlatformInit());
+        GameGUIManager.Ins.UpdateScoreCounting(m_score);
+        GameGUIManager.Ins.ShowGameGUI(false);
     }
-
+    public void PlayGame()
+    {
+        StartCoroutine(PlatformInit());
+        GameGUIManager.Ins.ShowGameGUI(true);
+    }
     IEnumerator PlatformInit()
     {
         Platform PlatformClone = null;
@@ -77,5 +81,7 @@ public class GameManager : Singleton<GameManager>
     public void AddScore()
     {
         m_score++;
+
+        GameGUIManager.Ins.UpdateScoreCounting(m_score);
     }
 }
