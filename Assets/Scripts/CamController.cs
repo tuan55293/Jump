@@ -23,7 +23,6 @@ public class CamController : MonoBehaviour
         float xPos = transform.position.x;
         Debug.Log(xPos);
         xPos = Mathf.Lerp(xPos, m_lerpXDist, lerpTime);
-        Debug.Log(xPos +";;;;;"+ m_lerpXDist);
         transform.position = new Vector3(xPos,transform.position.y, transform.position.z);
 
         if (transform.position.x >= (m_lerpXDist - xOffset))
