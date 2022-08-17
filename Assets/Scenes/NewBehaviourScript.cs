@@ -7,23 +7,15 @@ public class NewBehaviourScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        Transform[]a = GetComponentsInParent<Transform>();
+        Debug.Log(a[1].name);
     }
 
     // Update is called once per frame
     void Update()
     {
-       
-    }
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
 
-    //}
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            Debug.Log("dsdfuqawefasdf");
-        }
     }
+
+
 }

@@ -21,7 +21,6 @@ public class CamController : MonoBehaviour
     void MoveLerp()
     {
         float xPos = transform.position.x;
-        Debug.Log(xPos);
         xPos = Mathf.Lerp(xPos, m_lerpXDist, lerpTime);
         transform.position = new Vector3(xPos,transform.position.y, transform.position.z);
 
