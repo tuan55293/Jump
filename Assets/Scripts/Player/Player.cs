@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     Rigidbody2D m_rb;
     Animator m_anim;
 
+    float m_curPowerBarVal = 0;
     private void Awake()
     {
         m_rb = GetComponent<Rigidbody2D>();
@@ -30,15 +31,18 @@ public class Player : MonoBehaviour
     }
     private void Update()
     {
-        SetPower();
-        if (Input.GetMouseButtonDown(0))
+        if (GameManager.Ins.IsGameStarted)
         {
-            SetPower(true);
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            SetPower(false);
+            SetPower();
+            if (Input.GetMouseButtonDown(0))
+            {
+                SetPower(true);
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                SetPower(false);
 
+            }
         }
 
     }
@@ -51,6 +55,10 @@ public class Player : MonoBehaviour
 
             jumpForce.x = Mathf.Clamp(jumpForce.x, minForceX, maxForceX);
             jumpForce.y = Mathf.Clamp(jumpForce.y, minForceY, maxForceY);
+
+            m_curPowerBarVal += GameManager.Ins.powerBarUp *Time.deltaTime;
+
+            GameGUIManager.Ins.UpdatePowerBar(m_curPowerBarVal, 1);
         }
     }
 
@@ -99,6 +107,9 @@ public class Player : MonoBehaviour
                     m_rb.velocity = Vector3.zero;
                 }
                 jumpForce = Vector3.zero;
+
+                m_curPowerBarVal = 0;
+                GameGUIManager.Ins.UpdatePowerBar(m_curPowerBarVal, 1);
             }
 
             if(p && p.id != lastPlatformId)

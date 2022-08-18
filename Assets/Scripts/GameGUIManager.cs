@@ -17,6 +17,7 @@ public class GameGUIManager : Singleton<GameGUIManager>
 
     public override void Awake()
     {
+        UpdatePowerBar(0, 1);
         MakeSingleton(false);
     }
 

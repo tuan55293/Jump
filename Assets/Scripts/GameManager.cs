@@ -10,10 +10,17 @@ public class GameManager : Singleton<GameManager>
     public float maxSpawnX;
     public float minSpawnY;
     public float maxSpawnY;
+    public float powerBarUp;
+
+    bool isGameStarted;
+
 
     public CamController mainCam;
     Player m_player;
     int m_score;
+
+    public bool IsGameStarted { get => isGameStarted;}
+
     public override void Awake()
     {
         MakeSingleton(false);
@@ -23,7 +30,6 @@ public class GameManager : Singleton<GameManager>
     {
         base.Start();
         GameGUIManager.Ins.UpdateScoreCounting(m_score);
-        GameGUIManager.Ins.ShowGameGUI(false);
     }
     public void PlayGame()
     {
@@ -56,6 +62,9 @@ public class GameManager : Singleton<GameManager>
             Platform PlatformClone01 = Instantiate(platformPrefs,new Vector2(spawnX, spawnY), Quaternion.identity);
             PlatformClone01.id = PlatformClone01.gameObject.GetInstanceID();
         }
+
+        yield return new WaitForSeconds(0.5f);
+        isGameStarted = true; 
     }
 
     public void CreatPlatform()
@@ -81,7 +90,7 @@ public class GameManager : Singleton<GameManager>
     public void AddScore()
     {
         m_score++;
-
+        Prefs.BestScore = m_score;
         GameGUIManager.Ins.UpdateScoreCounting(m_score);
     }
 }
