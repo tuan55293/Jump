@@ -20,10 +20,16 @@ public class Player : MonoBehaviour
     Animator m_anim;
 
     float m_curPowerBarVal = 0;
+
+    public bool Jumped { get => m_Jumped; set => m_Jumped = value; }
+    public float CurPowerBarVal { get => m_curPowerBarVal; set => m_curPowerBarVal = value; }
+    public Animator Anim { get => m_anim; set => m_anim = value; }
+    public Rigidbody2D Rb { get => m_rb; set => m_rb = value; }
+
     private void Awake()
     {
-        m_rb = GetComponent<Rigidbody2D>();
-        m_anim = GetComponent<Animator>();
+        Rb = GetComponent<Rigidbody2D>();
+        Anim = GetComponent<Animator>();
     }
     private void Start()
     {
@@ -48,7 +54,7 @@ public class Player : MonoBehaviour
     }
     void SetPower()
     {
-        if (m_powerSetted && !m_Jumped)
+        if (m_powerSetted && !Jumped)
         {
             jumpForce.x += jumpForceUp.x * Time.deltaTime;
             jumpForce.y += jumpForceUp.y * Time.deltaTime;
@@ -56,9 +62,9 @@ public class Player : MonoBehaviour
             jumpForce.x = Mathf.Clamp(jumpForce.x, minForceX, maxForceX);
             jumpForce.y = Mathf.Clamp(jumpForce.y, minForceY, maxForceY);
 
-            m_curPowerBarVal += GameManager.Ins.powerBarUp *Time.deltaTime;
+            CurPowerBarVal += GameManager.Ins.powerBarUp *Time.deltaTime;
 
-            GameGUIManager.Ins.UpdatePowerBar(m_curPowerBarVal, 1);
+            GameGUIManager.Ins.UpdatePowerBar(CurPowerBarVal, 1);
         }
     }
 
@@ -66,7 +72,7 @@ public class Player : MonoBehaviour
     {
         m_powerSetted = isHoldingMouse;
 
-        if (!m_powerSetted && !m_Jumped)
+        if (!m_powerSetted && !Jumped)
         {
             Jump();
         }
@@ -74,54 +80,27 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (!m_rb || jumpForce.x <= 0 || jumpForce.y <= 0)
+        AudioController.Ins.PlaySound(AudioController.Ins.jump);
+        if (!Rb || jumpForce.x <= 0 || jumpForce.y <= 0)
         {
             return;
         }
-        m_rb.velocity = jumpForce;
-        m_Jumped = true;
+        Rb.velocity = jumpForce;
+        Jumped = true;
 
-        if (m_anim)
+        if (Anim)
         {
-            m_anim.SetBool("Jumped", true);
+            Anim.SetBool("Jumped", true);
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-        if (collision.CompareTag(TagsConsts.GROUND))
-        {
-            Platform p = collision.transform.root.GetComponent<Platform>();
 
-            if (m_Jumped)
-            {
-                m_Jumped = false;
-
-                if (m_anim)
-                {
-                    m_anim.SetBool("Jumped", false);
-                }
-                if (m_rb)
-                {
-                    m_rb.velocity = Vector3.zero;
-                }
-                jumpForce = Vector3.zero;
-
-                m_curPowerBarVal = 0;
-                GameGUIManager.Ins.UpdatePowerBar(m_curPowerBarVal, 1);
-            }
-
-            if(p && p.id != lastPlatformId)
-            {
-                GameManager.Ins.CreatePlatformAndLerp(transform.position.x);
-                lastPlatformId = p.id;
-                GameManager.Ins.AddScore();
-            }
-        }
         if (collision.CompareTag(TagsConsts.DEAD_ZONE))
         {
             GameGUIManager.Ins.ShowGameOverDialog();
+            AudioController.Ins.PlaySound(AudioController.Ins.gameover);
             Destroy(gameObject);
         }
     }

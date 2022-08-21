@@ -24,11 +24,13 @@ public class GameManager : Singleton<GameManager>
     public override void Awake()
     {
         MakeSingleton(false);
+        Application.targetFrameRate = 60;
     }
 
     public override void Start()
     {
         base.Start();
+        AudioController.Ins.PlayBackgroundMusic();
         GameGUIManager.Ins.UpdateScoreCounting(m_score);
     }
     public void PlayGame()
