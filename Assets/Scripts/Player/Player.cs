@@ -33,7 +33,7 @@ public class Player : MonoBehaviour
     }
     private void Start()
     {
- 
+        Debug.Log("sdeeesdf");
     }
     private void Update()
     {
